@@ -17,15 +17,31 @@ int main(int argc, const char * argv[]) {
         // Read from given filename
         std::fstream file(argv[1]);
         if(file.is_open()){
-            std::cout << "File '" << argv[1] << "' oppend." << std::endl;
+            int min = 200000;
+            int max = 0;
+            int key = -1;
+            
+            // Create root node
+            file >> key;
+            Node * root = new Node(key);
             
             // Reach each line
             while (!file.eof()) {
-                std::string line;
-                std::getline(file, line);
-                std::cout << "Nr. " << line << std::endl;
+                // insert new node
+                file >> key;
+                root->push(key);
+                
+                // Calculate statistic
+                if (min > key) min = key;
+                if (max < key) max = key;
             }
             
+            // Show tree balance
+            root->balance();
+            delete root;
+            
+            // Show statistic
+            std::cout << "min: " << min << ", max: " << max << ", avg: " << max/min << std::endl;
         } else {
             std::cout << "File '" << argv[1] << "' cold not be oppend." << std::endl;
         }

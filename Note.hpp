@@ -16,10 +16,13 @@ private:
     int key;
     Node * left;
     Node * right;
+    int bal;
 public:
     Node(int);
     int getKey() const;
     void push(int);
+    void balance() const;
+    ~Node();
 };
 
 #endif /* Note_hpp */
