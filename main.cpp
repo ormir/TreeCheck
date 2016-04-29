@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "Note.hpp"
 
 int main(int argc, const char * argv[]) {
     if ( argc != 2 )
