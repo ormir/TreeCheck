@@ -7,9 +7,28 @@
 //
 
 #include <iostream>
+#include <fstream>
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    if ( argc != 2 )
+        std::cout << "usage: "<< argv[0] << " [filename]" << std::endl;
+    else {
+        // Read from given filename
+        std::fstream file(argv[1]);
+        if(file.is_open()){
+            std::cout << "File '" << argv[1] << "' oppend." << std::endl;
+            
+            // Reach each line
+            while (!file.eof()) {
+                std::string line;
+                std::getline(file, line);
+                std::cout << "Nr. " << line << std::endl;
+            }
+            
+        } else {
+            std::cout << "File '" << argv[1] << "' cold not be oppend." << std::endl;
+        }
+        file.close();
+    }
     return 0;
 }
