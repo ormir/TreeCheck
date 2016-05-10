@@ -35,35 +35,22 @@ void Node::push(int k) {
     }
 }
 
-void Node::balance() const {
-//    const Node *n = this;
-    if (left != nullptr) {
-        left->balance();
-    }
-    
-    if (right != nullptr) {
-        right->balance();
-    }
+bool Node::balance() const {
+    if (left != nullptr)  left->balance();
+    if (right != nullptr) right->balance();
     
     std::cout << "bal(" << key << ") = " << bal;
     
-    if (bal < 2 && bal > -2) {
-        std::cout << std::endl;
-    } else {
+    if (bal < 2 && bal > -2) std::cout << std::endl;
+    else {
         std::cout << " (AVL Violation!)" << std::endl;
+        return false;
     }
+    return true;
 }
 
 Node::~Node() {
-//    std::cout << "Deleting " << key << std::endl;
-    
-    if (left != nullptr) {
-        delete left;
-    }
-    
-    if (right != nullptr) {
-        delete right;
-    }
-    
+    if (left != nullptr) delete left;
+    if (right != nullptr) delete right;
     
 }

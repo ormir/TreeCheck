@@ -21,7 +21,7 @@ public:
     Node(int);
     int getKey() const;
     void push(int);
-    void balance() const;
+    bool balance() const;
     ~Node();
 };
 

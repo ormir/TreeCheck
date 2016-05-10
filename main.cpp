@@ -11,6 +11,7 @@
 #include "Note.hpp"
 
 int main(int argc, const char * argv[]) {
+    
     if ( argc != 2 )
         std::cout << "usage: "<< argv[0] << " [filename]" << std::endl;
     else {
@@ -37,7 +38,8 @@ int main(int argc, const char * argv[]) {
             }
             
             // Show tree balance
-            root->balance();
+            if(!root->balance()) std::cout << "AVL: no" << std::endl;
+            else std::cout << "AVL: yes" << std::endl;
             delete root;
             
             // Show statistic
