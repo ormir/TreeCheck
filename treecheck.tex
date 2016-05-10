@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\begin{document}
+\title{{\huge \bfseries Treecheck - Protocol}}
+\author{Ormir Gjurgjej, Nitika Kumar}
+\maketitle
+
+\section{Rekursive Funktionen}
+\subsection{push} 
+In order to add a new node to the tree, the push function needs to be executed. \\The value of the node that the user wants to insert is given over to the function as a parameter (int k). First of all, the keys of the tree (available nodes) are compared to the parameter (k) starting with the root. If the current key is smaller than k and there is no node on the right hand side of key (as nullptr is a pointer pointing to null meaning there is no node available), a new node is then inserted with the value of k and so the balance is incremented (bal++).\\Otherwise if the key is smaller than k and there is already another node on the right hand side of key, the push function is called again and "pushes" k onto the new key which is the node hanging on the right hand side of the previous key (recursion). \\However, if this is not the case either we move on to the next if condition and check whether key is greater than k and there is no node on the left hand side of key. If this condition is true, the new node with the value of k is added to the left of key. In addition to that, the balance variable decrements (ball--) as the parent node of k has only one new node hanging on one side and needs another one on the right to balance it out. \\
+If there is a node on the left hand side of key, the function push is called again in order to turn this node into the new key to check all conditions again and compare them to k (recursion). Again, the variable bal is decremented.\\
+The very last else statement tells the user that k is already available in the tree and will not be added as it is a duplicate.
+\\
+	\begin{lstlisting}[language=C++, caption=Push function]
+	void Node::push(int k) {
+	    if (key < k && right == nullptr) {
+	        right = new Node(k);
+	        bal++;
+	    } else if (key < k && right != nullptr) {
+	        right->push(k);
+	        bal++;
+	    } else if (key > k && left == nullptr) {
+	        left = new Node(k);
+	        bal--;
+	    } else if (key > k && left != nullptr) {
+	        left->push(k);
+	        bal--;
+	    } else {
+	        std::cout << "Duplicate key " << k << std::endl;
+	    }
+	}
+	\end{lstlisting}
+
+
+\subsection{balance}
+The purpose of the balance function is to show the balance of the current AVL tree.\\ Here, the function looks at each node and checks whether or not there is something on the left or right hand side of the node. It first makes its way down to the left of the tree until it reaches the very last node. Afterwards it goes up the nodes again and checks for some on the right hand side until it has finished checking the entire tree. (recursion)\\ Eventually, the variable bal decides whether or not the tree is indeed an AVL tree - as in well balanced. If bal is smaller than 2 and greater than -2, the function returns true. However, if the condition is not true, it is not a well balanced tree and the user sees the corresponding output on the screen.
+
+\begin{lstlisting}[language=C++, caption=Balance function]
+void Node::balance() const {
+    if (left != nullptr) {
+        left->balance();
+    }
+    
+    if (right != nullptr) {
+        right->balance();
+    }
+    
+    std::cout << "bal(" << key << ") = " << bal;
+    
+    if (bal < 2 && bal > -2) {
+        std::cout << std::endl;
+    } else {
+        std::cout << " (AVL Violation!)" << std::endl;
+    }
+}
+\end{lstlisting}
+
+\section{Estimation}
+The estimation of AVL Trees (for the average as well as worst cases):\\
+\begin{table}[h!]
+\centering
+\label{tab:table1}
+	\begin{tabular}{c|c|c|c}
+	Access & Search & Insertion & Deletion \\
+	\hline
+	O(log(n)) & O(log(n)) & O(log(n)) & O(log(n)) \\
+	\end{tabular}\\
+\caption{Big O Notation}
+\end{table}
+
+\end{document}
